@@ -9,12 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dda623b2bc1dd3148b0b6cd746f9e1dc, type: 3}
-  m_Name: Lobby Reference
+  m_Script: {fileID: 11500000, guid: dc5a56073798f3e479fb1139282556b8, type: 3}
+  m_Name: Start Transition Scene Channel
   m_EditorClassIdentifier: 
-  sceneReference:
-    m_AssetGUID: 2bf592d65335edf4884c28d4b67d94d8
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  showTransition: 1

@@ -5,4 +5,5 @@ using UnityEngine.AddressableAssets;
 public class SceneSO : ScriptableObject
 {
     public AssetReference sceneReference;
+    public bool showTransition;
 }

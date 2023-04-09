@@ -2,22 +2,39 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.AddressableAssets;
+using Unity.VisualScripting;
 
 public class SceneLoader : MonoBehaviour
 {
-    [SerializeField] private SceneEventChannelSO _sceneEventChannel;
+    [SerializeField] private SceneEventChannelSO _loadSceneChannel;
+    [SerializeField] private SceneEventChannelSO _startTransitionSceneChannel;
+    [SerializeField] private SceneEventChannelSO _endTransitionSceneChannel;
 
     private SceneInstance _previousScene;
     private bool _clearPreviousScene;
 
     private void OnEnable()
     {
-        _sceneEventChannel.OnSceneRequest += UnloadPreviousScene;
+        _loadSceneChannel.OnSceneRequest += CheckTransition;
+        _endTransitionSceneChannel.OnSceneRequest += UnloadPreviousScene;
     }
 
     private void OnDisable()
     {
-        _sceneEventChannel.OnSceneRequest -= UnloadPreviousScene;        
+        _loadSceneChannel.OnSceneRequest -= CheckTransition;     
+        _endTransitionSceneChannel.OnSceneRequest -= UnloadPreviousScene;
+    }
+
+    void CheckTransition(SceneSO scene)
+    {
+        if (scene.showTransition)
+        {
+            _startTransitionSceneChannel.RaiseEvent(scene);
+        }
+        else
+        {
+            UnloadPreviousScene(scene);
+        }
     }
 
     void UnloadPreviousScene(SceneSO scene)

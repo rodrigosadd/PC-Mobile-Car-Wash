@@ -8,7 +8,7 @@ public class Initialization : MonoBehaviour
 {
     [SerializeField] private SceneSO _manager;
     [SerializeField] private SceneSO _sceneToLoad;
-    [SerializeField] private SceneEventChannelSO _sceneEventChannelSO;
+    [SerializeField] private SceneEventChannelSO _loadSceneChannel;
 
     private void Start()
     {
@@ -17,10 +17,15 @@ public class Initialization : MonoBehaviour
     
     void SetupScenes()
     {
+        _sceneToLoad.showTransition = false;
+
         Addressables.LoadSceneAsync(_manager.sceneReference, LoadSceneMode.Additive).Completed += (asyncHandle) =>
         {
-            _sceneEventChannelSO.RaiseEvent(_sceneToLoad);
-            SceneManager.UnloadSceneAsync(0);
+            _loadSceneChannel.RaiseEvent(_sceneToLoad);
+            SceneManager.UnloadSceneAsync(0).completed += (teste) =>
+            {
+                _sceneToLoad.showTransition = true;
+            };
         } ;
     }
 }
